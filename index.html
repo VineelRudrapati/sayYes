@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yes or No 😄</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .buttons {
+            position: relative;
+            height: 150px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Result Section */
+        .result {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result img {
+            width: 250px;
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            top: -10px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Will you be my valentine 🤔</h1>
+
+    <div class="buttons">
+        <button id="yesBtn">YES</button>
+        <button id="noBtn">NO</button>
+    </div>
+
+    <div class="result" id="result">
+        <h2>🎉 Yay! Thanks for saying YES! 🎉</h2>
+        <p>You just made me happy 😄</p>
+        <img src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif" alt="Celebration">
+    </div>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const result = document.getElementById("result");
+
+    // Move NO button away from cursor
+    noBtn.addEventListener("mouseover", () => {
+        const container = document.querySelector(".buttons");
+        // ensure the NO button is absolutely positioned so it can move
+        if (getComputedStyle(noBtn).position !== "absolute") {
+            noBtn.style.position = "absolute";
+        }
+        const maxX = container.clientWidth - noBtn.offsetWidth;
+        const maxY = container.clientHeight - noBtn.offsetHeight;
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+    });
+
+    // YES button click
+    yesBtn.addEventListener("click", () => {
+        result.style.display = "block";
+        launchConfetti();
+    });
+
+    // Confetti function
+    function launchConfetti() {
+        for (let i = 0; i < 80; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti");
+
+            confetti.style.left = Math.random() * window.innerWidth + "px";
+            confetti.style.backgroundColor = randomColor();
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+
+    function randomColor() {
+        const colors = ["#ff0a54", "#ff477e", "#ff7096", "#ffd166", "#06d6a0", "#118ab2"];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+</script>
+
+</body>
+</html>
